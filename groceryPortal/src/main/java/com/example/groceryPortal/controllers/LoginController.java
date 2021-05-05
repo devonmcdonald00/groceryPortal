@@ -14,6 +14,8 @@ import com.example.groceryPortal.entities.User_Privileges;
 import com.example.groceryPortal.services.UserPrivilegeService;
 import com.example.groceryPortal.services.SalesService;
 import com.example.groceryPortal.entities.Sales;
+import com.example.groceryPortal.services.CustomersService;
+import com.example.groceryPortal.entities.Customers;
 
 
 @Controller
@@ -23,6 +25,8 @@ public class LoginController {
     private UserPrivilegeService UserPrivilegeService;
 	@Autowired
     private SalesService SalesService;
+	@Autowired
+	private CustomersService customerService;
 
     @RequestMapping(value="/", method = RequestMethod.GET)
     public String welcomePage(ModelMap model) {
@@ -129,6 +133,30 @@ public class LoginController {
     		sale.setTotal(total);
     		SalesService.EditSale(sale);
     		return ("edit-sales");
+    	}
+    	else if(button.equals("login")) {
+    		return ("login");
+    	}
+    	else {
+    		model.addAttribute("message", "Please select which table you would like to edit");
+    		return ("edit");
+    	}
+    }
+    
+    @RequestMapping(value="/edit-customers", method=RequestMethod.POST)
+    public String handleEditCustomer(@RequestParam(value = "button", required=false) String button, @RequestParam(value = "customerId", required=false) int customerId, @RequestParam(value = "name", required=false) String name, @RequestParam(value = "email", required=false) String email, ModelMap model) {
+    	if(button.equals("submit query")) {
+    		Customers customer = customerService.GetCustomerById(customerId);
+    		model.addAttribute("customer", customer);
+    		return ("edit-customers");
+    	}
+    	else if (button.equals("submit edit")){
+    		Customers customer = customerService.GetCustomerById(customerId);
+    		model.addAttribute("customer", customer);
+    		customer.setName(name);
+    		customer.setEmail(email);
+    		customerService.EditCustomer(customer);
+    		return ("edit-customers");
     	}
     	else if(button.equals("login")) {
     		return ("login");

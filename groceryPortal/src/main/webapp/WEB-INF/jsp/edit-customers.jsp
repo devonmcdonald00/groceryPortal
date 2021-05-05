@@ -11,6 +11,23 @@ table, th, td {
 </style>
 </head>
 <body>
+	<form action="edit-customers" method="post">
+	  <label for="customerId">Id:</label><br>
+	  <input type="text" id="customerId" name="customerId"><br><br>
+	  <input type="submit" value="submit query" name="button">
+	</form> 
+
+	<form action="edit-customers" method="post">
+	  <label for="customerId">User Id:</label><br>
+	  <input type="text" id="customerId" name="customerId" value="${customer.id}"><br>
+	   <label for="name">Name:</label><br>
+	  <input type="text" id="name" name="name" value="${customer.name}"><br>
+	  <label for="email">Email:</label><br>
+	  <input type="text" id="email" name="email" value="${customer.email}"><br>
+	  
+	  <br>
+	  <input type="submit" value="submit edit" name="button">
+	</form>
 	<sql:setDataSource
         var="myDS"
         driver="com.mysql.jdbc.Driver"
